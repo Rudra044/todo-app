@@ -12,10 +12,26 @@
     <div class="container">
         <h1>Todo List</h1>
         <form action="{{ url_for('home') }}" method="POST">
-            <input type="text" id="input-todo" name="todo_name" placeholder="Enter your task" required>
+            <input type="text" id="input-todo" name="todo_name" placeholder="Enter your task" >
+            <input
+        type="text"
+        name="description"
+        id = "input-description"
+        placeholder="description"
+        gap 1="100px"
+        />
             <button type="submit">Save</button>
         </form>
     </div>
+    {% with messages = get_flashed_messages() %}
+ {% if messages %}
+  <ul>
+  {% for message in messages %}
+    <li>{{ message }}</li>
+  {% endfor %}
+  </ul>
+ {% endif %}
+{% endwith %}
 
     <div class="todo-container">
         <h2>Your Tasks</h2>
@@ -24,7 +40,7 @@
             <p>{{ item.name }}</p>
             <div class="actions">
                 <form action="{{ url_for('checked_todo', todo_id=item.id) }}" method="POST">
-                    <input type="checkbox" name="checked" {% if item.checked %}checked{% endif %} onchange="this.form.submit()">
+                    <input type="checkbox"  {% if item.checked %}checked{% endif %} onchange="this.form.submit()">
                 </form>
                 <form action="{{ url_for('delete_todo', todo_id=item.id) }}" method="POST">
                     <button>Delete</button>
